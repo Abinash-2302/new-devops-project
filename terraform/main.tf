@@ -80,7 +80,7 @@ resource "aws_security_group" "app" {
 
 # Launch Frontend EC2 Instance
 resource "aws_instance" "frontend" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with the desired AMI ID
+  ami           = "ami-0c2af51e265bd5e0e"  # Replace with the desired AMI ID
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
   key_name       = var.key_name
@@ -111,7 +111,7 @@ resource "aws_instance" "frontend" {
 
 # Launch Backend EC2 Instance
 resource "aws_instance" "backend" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with the desired AMI ID
+  ami           = "ami-0c2af51e265bd5e0e"  # Replace with the desired AMI ID
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name

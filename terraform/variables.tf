@@ -17,7 +17,10 @@ variable "private_subnet_cidr" {
 variable "instance_type" {
   default = "t2.micro"
 }
-
+variable "private_key_path" {
+  description = "Path to the private key for SSH access"
+  type        = string
+}
 variable "key_name" {
   description = "The name of the SSH key pair to use for the instances"
   default     = "MyKeyPair1"

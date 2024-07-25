@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=testdb
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: testdb
+    ports:
+      - "3306:3306"

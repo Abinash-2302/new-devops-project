@@ -103,7 +103,7 @@ resource "aws_instance" "frontend" {
     connection {
       type        = "ssh"
       user        = "ec2-user"  # Update as necessary
-      private_key = file("~/MyKeyPair1.pem")  # Update with your key file path
+      private_key = file("~/.ssh/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
   }

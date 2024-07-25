@@ -103,7 +103,7 @@ resource "aws_instance" "frontend" {
     connection {
       type        = "ssh"
       user        = "ec2-user"  # Update as necessary
-      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      private_key = file(var.private_key_path)  # Update with your key file path
       host        = self.public_ip
     }
   }
@@ -134,7 +134,7 @@ resource "aws_instance" "backend" {
     connection {
       type        = "ssh"
       user        = "ec2-user"  # Update as necessary
-      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      private_key = file(var.private_key_path)  # Update with your key file path
       host        = self.private_ip
     }
   }

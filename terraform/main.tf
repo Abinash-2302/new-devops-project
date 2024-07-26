@@ -85,7 +85,7 @@ resource "aws_instance" "frontend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
   key_name       = var.key_name
-  security_groups = [aws_security_group.app.name]
+  security_groups = ["default"]
   tags = {
     Name = "frontend"
   }
@@ -116,7 +116,7 @@ resource "aws_instance" "backend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name
-  security_groups = [aws_security_group.app.name]
+  security_groups = ["default"]
   tags = {
     Name = "backend"
   }

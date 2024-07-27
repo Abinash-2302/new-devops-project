@@ -1,5 +1,6 @@
 provider "aws" {
   region = var.region
+   
 }
 
 # Create a VPC
@@ -84,7 +85,7 @@ resource "aws_instance" "frontend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
   key_name       = var.key_name
-  security_groups = [aws_security_group.app.name]
+  vpc_security_group_ids = [aws_security_group.app.id]
   tags = {
     Name = "frontend"
   }
@@ -102,8 +103,8 @@ resource "aws_instance" "frontend" {
     ]
     connection {
       type        = "ssh"
-      user        = "ec2-user"  # Update as necessary
-      private_key = file("~/MyKeyPair1.pem")  # Update with your key file path
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
   }
@@ -115,7 +116,7 @@ resource "aws_instance" "backend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name
-  security_groups = [aws_security_group.app.name]
+  vpc_security_group_ids = [aws_security_group.app.id]
   tags = {
     Name = "backend"
   }
@@ -133,8 +134,8 @@ resource "aws_instance" "backend" {
     ]
     connection {
       type        = "ssh"
-      user        = "ec2-user"  # Update as necessary
-      private_key = file("~/MyKeyPair1.pem")  # Update with your key file path
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.private_ip
     }
   }

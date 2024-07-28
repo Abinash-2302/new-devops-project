@@ -6,35 +6,13 @@
     <title>2-Tier App</title>
 </head>
 <body>
-    <h1>Enter Your Details</h1>
-    <form id="userForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+    <h1>Enter Your Data</h1>
+    <form id="dataForm">
+        <label for="dataInput">Data:</label>
+        <input type="text" id="dataInput" required>
         <button type="submit">Submit</button>
     </form>
-
-    <script>
-        document.getElementById('userForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var name = document.getElementById('name').value;
-            var email = document.getElementById('email').value;
-
-            fetch('http://backend:3000/addUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name: name, email: email })
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                alert('User added successfully!');
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+

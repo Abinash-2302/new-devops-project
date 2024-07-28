@@ -1,33 +1,29 @@
-version: '3.7'
-
+version: '3'
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
-    networks:
-      - app-network
+      - "84:80"
+    
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    networks:
-      - app-network
     depends_on:
       - db
 
   db:
-    build: ./db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: testdb
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
-    networks:
-      - app-network
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: testdb
-
-networks:
-  app-network:
-    driver: bridge
 

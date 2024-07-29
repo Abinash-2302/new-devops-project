@@ -134,7 +134,7 @@ resource "aws_instance" "backend" {
       type        = "ssh"
       user        = "ubuntu"  # Update as necessary
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
-      host        = self.public_ip
+      host        = self.private_ip
     }
   }
   

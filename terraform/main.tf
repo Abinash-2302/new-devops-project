@@ -29,6 +29,7 @@ resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.private_subnet_cidr
   availability_zone       = "ap-south-1a"
+  map_public_ip_on_launch = true
   tags = {
     Name = "private-subnet"
   }
@@ -68,12 +69,12 @@ resource "aws_security_group" "app" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["106.222.187.169/32"]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -134,7 +135,7 @@ resource "aws_instance" "backend" {
       type        = "ssh"
       user        = "ubuntu"  # Update as necessary
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
-      host        = self.private_ip
+      host        = self.public_ip
     }
   }
   

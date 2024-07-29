@@ -93,6 +93,12 @@ resource "aws_instance" "frontend" {
   provisioner "file" {
     source      = "../frontend/dockerfile"
     destination = "/tmp/Dockerfile"
+      connection {
+      type        = "ssh"
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      host        = self.public_ip
+    }
   }
   
   provisioner "remote-exec" {
@@ -124,6 +130,12 @@ resource "aws_instance" "backend" {
   provisioner "file" {
     source      = "../backend/dockerfile"
     destination = "/tmp/Dockerfile"
+     connection {
+      type        = "ssh"
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      host        = self.public_ip
+    }
   }
   
   provisioner "remote-exec" {

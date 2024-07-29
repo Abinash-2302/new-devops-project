@@ -77,8 +77,17 @@ resource "aws_security_group" "app" {
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
+ # Allow all outbound traffic
 }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+}
+
 
 # Launch Frontend EC2 Instance
 resource "aws_instance" "frontend" {

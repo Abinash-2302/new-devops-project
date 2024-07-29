@@ -91,7 +91,7 @@ resource "aws_instance" "frontend" {
   }
   
   provisioner "file" {
-    source      = "../frontend/dockerfile"
+    source      = "../frontend/Dockerfile"
     destination = "/tmp/Dockerfile"
       connection {
       type        = "ssh"
@@ -128,7 +128,7 @@ resource "aws_instance" "backend" {
   }
   
   provisioner "file" {
-    source      = "../backend/dockerfile"
+    source      = "../backend/Dockerfile"
     destination = "/tmp/Dockerfile"
      connection {
       type        = "ssh"

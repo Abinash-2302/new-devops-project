@@ -53,40 +53,47 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
-
-# Security Group
-resource "aws_security_group" "app" {
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion_sg"
+  description = "Security group for bastion host"
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["106.222.187.169/32"]
+    cidr_blocks = ["106.222.188.149/32"]
   }
 
-  egress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
- # Allow all outbound traffic
-}
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
 }
+
+resource "aws_security_group" "private_instance_sg" {
+  name        = "private_instance_sg"
+  description = "Security group for private instance"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 
 
 # Launch Frontend EC2 Instance
@@ -95,7 +102,7 @@ resource "aws_instance" "frontend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
   key_name       = var.key_name
-  vpc_security_group_ids = [aws_security_group.app.id]
+  vpc_security_group_ids = [aws_security_group.bastion_sg.name]
   tags = {
     Name = "frontend"
   }
@@ -113,9 +120,7 @@ resource "aws_instance" "frontend" {
   
   provisioner "remote-exec" {
     inline = [
-      "cd /tmp",
-      "docker build -t frontend-app .",
-      "docker run -d -p 80:80 frontend-app"
+      "echo Hello, World! > /tmp/hello.txt"
     ]
     connection {
       type        = "ssh"
@@ -132,33 +137,25 @@ resource "aws_instance" "backend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name
-  vpc_security_group_ids = [aws_security_group.app.id]
+  vpc_security_group_ids = [aws_security_group.private_instance_sg.name]
   tags = {
     Name = "backend"
   }
   
-  provisioner "file" {
-    source      = "../backend/Dockerfile"
-    destination = "/tmp/Dockerfile"
-     connection {
-      type        = "ssh"
-      user        = "ubuntu"  # Update as necessary
-      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
-      host        = self.private_ip
-    }
-  }
-  
-  provisioner "remote-exec" {
+   provisioner "remote-exec" {
     inline = [
-      "cd /tmp",
-      "docker build -t backend-app .",
-      "docker run -d -p 3000:3000 backend-app"
+      "echo Hello, World! > /tmp/hello.txt"
     ]
+
     connection {
       type        = "ssh"
-      user        = "ubuntu"  # Update as necessary
-      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
-      host        = self.private_ip
-    }
+      user        = "ubuntu"
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")
+      host        = aws_instance.frontend.public_ip
+      bastion_host = aws_instance.frontend.public_ip
+      bastion_port = 22
+      bastion_user = "ubuntu"
+      bastion_private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")
+ }
   }
 }

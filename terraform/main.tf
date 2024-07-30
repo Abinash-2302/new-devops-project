@@ -111,7 +111,7 @@ resource "aws_instance" "frontend" {
   
   
   provisioner "remote-exec" {
-    inline =[
+    heredoc =[
       "mkdir tmp",
       "eval "$(ssh-agent -s)",
       "ssh-add /home/abianshsahoo_123/MyKeyPair1.pem",
@@ -119,9 +119,7 @@ resource "aws_instance" "frontend" {
       "User ubuntu"
       "IdentityFile /home/abianshsahoo_123/MyKeyPair1.pem"
       "ForwardAgent yes"
-
       "ssh -i /home/abianshsahoo_123/MyKeyPair1.pem ubuntu@aws_instance.backend.private_ip",
-      
       "echo Hello, World! > /tmp/hello.txt"
     ]
     connection {

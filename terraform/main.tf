@@ -112,7 +112,9 @@ resource "aws_instance" "frontend" {
   
   provisioner "remote-exec" {
     inline = [
-      "ssh -i /path/to/private-instance-key.pem user@aws_instance.backend.private_ip",
+      "mkdir tmp"
+      "ssh -i /home/abianshsahoo_123/MyKeyPair1.pem ubuntu@aws_instance.backend.private_ip",
+      
       "echo Hello, World! > /tmp/hello.txt"
     ]
     connection {

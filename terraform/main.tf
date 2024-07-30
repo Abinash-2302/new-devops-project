@@ -102,7 +102,7 @@ resource "aws_instance" "frontend" {
   instance_type = var.instance_type
   
   key_name       = var.key_name
-  vpc_security_group_ids = [aws_security_group.bastion_sg.name]
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
   subnet_id     = aws_subnet.public.id
   tags = {
     Name = "frontend"
@@ -138,7 +138,7 @@ resource "aws_instance" "backend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name
-  vpc_security_group_ids = [aws_security_group.private_instance_sg.name]
+  vpc_security_group_ids = [aws_security_group.private_instance_sg.id]
   tags = {
     Name = "backend"
   }

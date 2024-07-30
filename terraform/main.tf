@@ -113,7 +113,7 @@ resource "aws_instance" "frontend" {
   provisioner "remote-exec" {
     inline =[
       "mkdir tmp",
-      eval "$(ssh-agent -s)",
+      "eval $(ssh-agent -s)",
       "echo Hello, World! > /tmp/hello.txt"
     ]
     connection {

@@ -133,15 +133,7 @@ resource "aws_instance" "backend" {
   tags = {
     Name = "backend"
   }
-  resource "null_resource" "bastion_ssh" {
-  provisioner "local-exec" {
-    command = <<EOT
-      chmod 400 /home/abianshsahoo_123/MyKeyPair1.pem \
-      ssh -A -i /home/abianshsahoo_123/MyKeyPair1.pem ubuntu@${aws_instance.frontend.public_ip} \
-      'ssh -A ubuntu@${aws_instance.backend.private_ip} <command>'
-    EOT
-  }
-}
+
 
    provisioner "remote-exec" {
     inline = [

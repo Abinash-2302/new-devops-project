@@ -152,7 +152,7 @@ resource "aws_instance" "backend" {
       type        = "ssh"
       user        = "ubuntu"
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")
-      host        = aws_instance.frontend.public_ip
+      host        = aws_instance.backend.private_ip
       bastion_host = aws_instance.frontend.public_ip
       bastion_port = 22
       bastion_user = "ubuntu"

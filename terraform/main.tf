@@ -100,9 +100,10 @@ resource "aws_security_group" "private_instance_sg" {
 resource "aws_instance" "frontend" {
   ami           = "ami-0c2af51e265bd5e0e"  # Replace with the desired AMI ID
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.public.id
+  
   key_name       = var.key_name
   vpc_security_group_ids = [aws_security_group.bastion_sg.name]
+  subnet_id     = aws_subnet.public.id
   tags = {
     Name = "frontend"
   }

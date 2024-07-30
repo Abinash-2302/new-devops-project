@@ -73,6 +73,7 @@ resource "aws_security_group" "bastion_sg" {
   }
 }
 
+
 resource "aws_security_group" "private_instance_sg" {
   name        = "private_instance_sg"
   description = "Security group for private instance"
@@ -108,16 +109,6 @@ resource "aws_instance" "frontend" {
     Name = "frontend"
   }
   
-  provisioner "file" {
-    source      = "../frontend/Dockerfile"
-    destination = "/tmp/Dockerfile"
-      connection {
-      type        = "ssh"
-      user        = "ubuntu"  # Update as necessary
-      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
-      host        = self.public_ip
-    }
-  }
   
   provisioner "remote-exec" {
     inline = [
@@ -142,7 +133,15 @@ resource "aws_instance" "backend" {
   tags = {
     Name = "backend"
   }
-  
+  resource "null_resource" "bastion_ssh" {
+  provisioner "local-exec" {
+    command = <<EOT
+      ssh -A -i /home/abianshsahoo_123/MyKeyPair1.pem ubuntu@${aws_instance.frontend.public_ip} \
+      'ssh -A ubuntu@${aws_instance.backend.private_ip} <command>'
+    EOT
+  }
+}
+
    provisioner "remote-exec" {
     inline = [
       "echo Hello, World! > /tmp/hello.txt"

@@ -92,6 +92,12 @@ resource "aws_security_group" "private_instance_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.bastion_sg.id]
   }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["13.233.177.0/29"]
+  }
 
   egress {
     from_port   = 0

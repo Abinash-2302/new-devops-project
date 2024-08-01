@@ -121,9 +121,7 @@ resource "aws_instance" "frontend" {
     Name = "frontend"
   }
 
-
-
-  provisioner "remote-exec" {
+    provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
     ]
@@ -147,11 +145,12 @@ resource "aws_instance" "backend" {
     Name = "backend"
   }
   
+  
 
-  provisioner "remote-exec" {
+   
+ provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
-
     ]
     connection {
       type        = "ssh"
@@ -159,5 +158,6 @@ resource "aws_instance" "backend" {
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
-  }
+}
+  
 }

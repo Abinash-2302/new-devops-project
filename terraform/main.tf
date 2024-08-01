@@ -96,7 +96,7 @@ resource "aws_security_group" "private_instance_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["13.233.177.0/29"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

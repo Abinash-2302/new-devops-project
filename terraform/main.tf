@@ -121,7 +121,7 @@ resource "aws_instance" "backend" {
 
   provisioner "remote-exec" {
     inline = [
-      mkdir tmp
+      "mkdir tmp",
     ]
     connection {
       type        = "ssh"

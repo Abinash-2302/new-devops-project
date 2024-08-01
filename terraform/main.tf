@@ -92,6 +92,7 @@ resource "aws_security_group" "backend" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+   security_groups = [aws_security_group.app.id]
   }
 
   ingress {

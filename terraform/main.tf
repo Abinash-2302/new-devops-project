@@ -146,11 +146,12 @@ resource "aws_instance" "backend" {
   tags = {
     Name = "backend"
   }
-
+  
 
   provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
+
     ]
     connection {
       type        = "ssh"

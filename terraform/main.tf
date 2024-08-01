@@ -81,7 +81,62 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_s3_bucket" "docker_bucket" {
+  bucket = "abinash2304"
+  acl    = "private"
 
+  tags = {
+    Name = "DockerInstallationFiles"
+  }
+}
+resource "aws_s3_bucket_object" "docker_install_files" {
+  bucket = aws_s3_bucket.docker_bucket.bucket
+  key    = "docker/install.sh"  # Path to your installation script in the bucket
+  source = "/home/abianshsahoo_123/docker/install.sh"
+  acl    = "private"
+}
+resource "aws_iam_role" "s3_access" {
+  name = "s3-access"
+  assume_role_policy = <<-EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "ubuntu.amazonaws.com"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    }
+  EOF
+}
+
+resource "aws_iam_role_policy_attachment" "s3_access" {
+  role       = aws_iam_role.s3_access.name
+  policy_arn = aws_iam_policy.s3_access.arn
+}
+resource "aws_iam_policy" "s3_access" {
+  name        = "s3-access"
+  description = "Policy for accessing S3 bucket"
+  policy      = <<-EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::${aws_s3_bucket.docker_bucket.bucket}/*"
+        }
+      ]
+    }
+  EOF
+}
+resource "aws_iam_instance_profile" "s3_access" {
+  name = "s3-access"
+  role = aws_iam_role.s3_access.name
+}
 
 resource "aws_security_group" "private_instance_sg" {
   name        = "private_instance_sg"
@@ -146,12 +201,11 @@ resource "aws_instance" "backend" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private.id
   key_name       = var.key_name
+  iam_instance_profile = aws_iam_instance_profile.s3_access.name
   vpc_security_group_ids = [aws_security_group.private_instance_sg.id]
-  tags = {
-    Name = "backend"
-  }
-
-
+  tags ={
+    Name ="backend"
+}
    provisioner "remote-exec" {
     inline = [
       "echo Hello, World! > /tmp/hello.txt"

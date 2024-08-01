@@ -104,7 +104,7 @@ resource "aws_iam_role" "s3_access" {
         {
           "Effect": "Allow",
           "Principal": {
-            "Service": "ubuntu.amazonaws.com"
+            "Service": "ec2.amazonaws.com"
           },
           "Action": "sts:AssumeRole"
         }

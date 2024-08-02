@@ -92,10 +92,8 @@ resource "aws_security_group" "backend" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-<<<<<<< HEAD
    security_groups = [aws_security_group.app.id]
-=======
->>>>>>> b32e781 (updated with new files)
+
   }
 
   ingress {
@@ -124,7 +122,6 @@ resource "aws_instance" "frontend" {
   tags = {
     Name = "frontend"
   }
-<<<<<<< HEAD
   provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/frontend.sh"
  destination = "/home/ubuntu/frontend.sh"
@@ -143,15 +140,12 @@ resource "aws_instance" "frontend" {
     }
 
 }
-    provisioner "remote-exec" {
-    inline = [
-=======
+    
 
 
 
   provisioner "remote-exec" {
     inline = [
->>>>>>> b32e781 (updated with new files)
       "mkdir tmp",
     ]
     connection {
@@ -174,7 +168,7 @@ resource "aws_instance" "backend" {
     Name = "backend"
   }
   
-<<<<<<< HEAD
+
  provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/backend.sh"
  destination = "/home/ubuntu/backend.sh"
@@ -195,17 +189,11 @@ resource "aws_instance" "backend" {
 
   }
   
- provisioner "remote-exec" {
-    inline = [
-      "mkdir tmp",
-      
-=======
 
   provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
 
->>>>>>> b32e781 (updated with new files)
     ]
     connection {
       type        = "ssh"

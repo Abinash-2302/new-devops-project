@@ -124,8 +124,13 @@ resource "aws_instance" "frontend" {
   provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/frontend.sh"
  destination = "/home/ubuntu/frontend.sh"
-
-
+  connection {
+      type        = "ssh"
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      host        = self.public_ip
+    }
+}
     provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
@@ -139,7 +144,7 @@ resource "aws_instance" "frontend" {
       host        = self.public_ip
     }
   }
-}
+
 }
 # Launch Backend EC2 Instance
 resource "aws_instance" "backend" {
@@ -155,7 +160,14 @@ resource "aws_instance" "backend" {
  provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/backend.sh"
  destination = "/home/ubuntu/backend.sh"
+ connection {
+      type        = "ssh"
+      user        = "ubuntu"  # Update as necessary
+      private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
+      host        = self.public_ip
+    }
 
+  }
   
  provisioner "remote-exec" {
     inline = [
@@ -169,6 +181,6 @@ resource "aws_instance" "backend" {
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
-}
+
   }
 }

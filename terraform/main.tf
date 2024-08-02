@@ -135,7 +135,6 @@ resource "aws_instance" "frontend" {
     inline = [
       "mkdir tmp",
       "chmod +x /home/ubuntu/frontend.sh",
-      "rm backend.sh",
       "/home/ubuntu/frontend.sh",
       "echo 'File uploaded successfully!'"
     ]

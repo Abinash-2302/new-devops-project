@@ -1,18 +1,9 @@
-# Use Node.js base image
-FROM node:14
+# Use an official MySQL image
+FROM mysql:5.7
 
-# Set the working directory
-WORKDIR /app
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_DATABASE=testdb
 
-# Copy the backend files
-COPY . .
-
-# Install dependencies
-RUN npm install
-
-# Expose the port
-EXPOSE 3000
-
-# Run the application
-CMD ["node", "server.js"]
-
+# Copy the initialization script
+COPY init-db.sql /docker-entrypoint-initdb.d/

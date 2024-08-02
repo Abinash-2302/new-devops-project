@@ -135,7 +135,7 @@ resource "aws_instance" "frontend" {
     inline = [
       "mkdir tmp",
       "chmod +x /home/ubuntu/frontend.sh",
-      "/home/ubuntu/frontend.sh",
+      "./frontend.sh",
       "echo 'File uploaded successfully!'"
     ]
     connection {
@@ -174,7 +174,7 @@ resource "aws_instance" "backend" {
     inline = [
       "mkdir tmp",
       "chmod +x /home/ubuntu/backend.sh",
-      "/home/ubuntu/backend.sh",
+      "./backend.sh",
       "echo 'File uploaded successfully!'"
     ]
     connection {

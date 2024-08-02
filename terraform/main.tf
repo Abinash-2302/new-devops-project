@@ -124,7 +124,7 @@ resource "aws_instance" "frontend" {
   provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/frontend.sh"
  destination = "/home/ubuntu/frontend.sh"
-}
+
 
     provisioner "remote-exec" {
     inline = [
@@ -140,7 +140,7 @@ resource "aws_instance" "frontend" {
     }
   }
 }
-
+}
 # Launch Backend EC2 Instance
 resource "aws_instance" "backend" {
   ami           = "ami-0c2af51e265bd5e0e"  # Replace with the desired AMI ID
@@ -155,7 +155,7 @@ resource "aws_instance" "backend" {
  provisioner file{
  source = "/home/abianshsahoo_123/2-tier-app/backend.sh"
  destination = "/home/ubuntu/backend.sh"
-}
+
   
  provisioner "remote-exec" {
     inline = [
@@ -170,5 +170,5 @@ resource "aws_instance" "backend" {
       host        = self.public_ip
     }
 }
-  
+  }
 }

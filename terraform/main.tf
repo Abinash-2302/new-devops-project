@@ -121,10 +121,16 @@ resource "aws_instance" "frontend" {
   tags = {
     Name = "frontend"
   }
+  provisioner file{
+ source = "/home/abianshsahoo_123/2-tier-app/frontend.sh"
+ destination = "/home/ubuntu/frontend.sh"
+}
 
     provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
+      "chmod +x /home/ubuntu/frontend.sh",
+      "echo 'File uploaded successfully!'"
     ]
     connection {
       type        = "ssh"
@@ -146,12 +152,16 @@ resource "aws_instance" "backend" {
     Name = "backend"
   }
   
+ provisioner file{
+ source = "/home/abianshsahoo_123/2-tier-app/backend.sh"
+ destination = "/home/ubuntu/backend.sh"
+}
   
-
-   
  provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
+      "chmod +x /home/ubuntu/backend.sh",
+      "echo 'File uploaded successfully!'"
     ]
     connection {
       type        = "ssh"

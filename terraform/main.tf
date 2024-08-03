@@ -142,6 +142,7 @@ resource "aws_instance" "frontend" {
   provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
+      "chmod +x /home/ubuntu/frontend.sh"
     ]
     connection {
       type        = "ssh"
@@ -181,6 +182,7 @@ resource "aws_instance" "backend" {
   provisioner "remote-exec" {
     inline = [
       "mkdir tmp",
+      "chmod +x /home/ubuntu/backend.sh"
 
     ]
     connection {

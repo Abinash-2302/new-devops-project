@@ -126,19 +126,14 @@ resource "aws_instance" "frontend" {
  source = "/home/abianshsahoo_123/2-tier-app/frontend.sh"
  destination = "/home/ubuntu/frontend.sh"
 
- provisioner "remote-exec" {
-    inline = [
-       "chmod +x /home/ubuntu/backend.sh",
-      "/home/ubuntu/backend.sh",
-      "echo 'File uploaded successfully!'"
-    ]
+ 
   connection {
       type        = "ssh"
       user        = "ubuntu"  # Update as necessary
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
-}
+
 }
     
 
@@ -173,20 +168,13 @@ resource "aws_instance" "backend" {
  source = "/home/abianshsahoo_123/2-tier-app/backend.sh"
  destination = "/home/ubuntu/backend.sh"
 
- provisioner "remote-exec" {
-    inline = [
-    
-      "chmod +x /home/ubuntu/backend.sh",
-      "/home/ubuntu/backend.sh",
-      "echo 'File uploaded successfully!'"
-    ]
  connection {
       type        = "ssh"
       user        = "ubuntu"  # Update as necessary
       private_key = file("/home/abianshsahoo_123/MyKeyPair1.pem")  # Update with your key file path
       host        = self.public_ip
     }
-}
+
   }
   
 
